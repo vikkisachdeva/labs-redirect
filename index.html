@@ -3,9 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>vlsideepdive · Free VLSI courses and labs</title>
-<script>location.replace("https://labs.vlsideepdive.com" + location.pathname + location.search + location.hash);</script>
-<noscript><meta http-equiv="refresh" content="0; url=https://labs.vlsideepdive.com/"></noscript>
+<meta name="robots" content="noindex">
+<title>vlsideepdive labs have moved</title>
+<script>
+// labs.vlsideepdive.com -> vlsideepdive.com, same path. On the first visit from this browser,
+// carry its saved lab progress (vdd-* keys, no sessions) via /moved.html, which imports it.
+(function () {
+  var to = location.pathname + location.search;
+  var dest = "https://vlsideepdive.com";
+  try {
+    if (!localStorage.getItem("vdd-moved-v1")) {
+      var d = {}, n = 0;
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (/^vdd-/.test(k) && !/session/i.test(k)) { d[k] = localStorage.getItem(k); n++; }
+      }
+      localStorage.setItem("vdd-moved-v1", "1");
+      var hash = "to=" + encodeURIComponent(to + location.hash) + "&d=" + encodeURIComponent(JSON.stringify(d));
+      if (n && hash.length < 60000) { location.replace(dest + "/moved.html#" + hash); return; }
+    }
+  } catch (e) {}
+  location.replace(dest + to + location.hash);
+})();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=https://vlsideepdive.com/"></noscript>
 </head>
-<body><p><a href="https://labs.vlsideepdive.com/">vlsideepdive labs</a></p></body>
+<body><p>The labs have moved to <a href="https://vlsideepdive.com/">vlsideepdive.com</a>.</p></body>
 </html>
